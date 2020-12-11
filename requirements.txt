@@ -1,0 +1,6 @@
+pocketsphinx
+numpy
+sounddevice
+scipy
+pickle
+

@@ -19,10 +19,11 @@ config = speech.RecognitionConfig(
 
 file_path = "static/voice_data/out2.wav"
 
+
 def record(target_sentence):
     f = 16000 #16kHz
     
-    secs = (0.9 * len(target_sentence.split())) // 1
+    secs = (0.80 * len(target_sentence.split())) // 1
 
     print("say:  ", target_sentence)
     print(f"recording for {secs}s...")
@@ -59,12 +60,12 @@ def assess(target_sentence):
             for pred_word in prediction.words:
                 print(pred_word.word, pred_word.confidence)
 
-                if pred_word.word in target_words:
+                if pred_word.word.lower() in target_words:
                     corr_cnt += 1
                     conf_sum += pred_word.confidence
                 else: #checking if homophemes of pred_word
                     for homophone_group in homophone_groups:
-                        if any(pred_word in homophone_group and target_word in homophone_group for target_word in target_words):
+                        if any(pred_word.word.lower() in homophone_group and target_word in homophone_group for target_word in target_words):
                             corr_cnt += 1
                             conf_sum += pred_word.confidence
 
@@ -74,9 +75,11 @@ def assess(target_sentence):
     print("top hard prec: ", max(hard_prec_scores))
     print("top soft prec: ", max(soft_prec_scores))
 
-
 target_sentence = "the sun is yellow"
 
 record(target_sentence)
 
 assess(target_sentence)
+
+
+
